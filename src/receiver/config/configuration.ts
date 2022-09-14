@@ -16,21 +16,26 @@ interface SentryConfig {
   release: string;
 }
 
-interface ServicesConfig {
-  [key: string]: string;
+interface Postgres {
+  user: string;
+  passowrd: string;
 }
 
 interface ReceiverServiceConfig {
   server: ServerConfig;
   redis: RedisConfig;
   sentry: SentryConfig;
+  postgrse: Postgres;
 }
 
 export default (): ReceiverServiceConfig => ({
   server: {
     port: parseInt(process.env.PORT, 10) || 3000,
   },
-
+  postgrse: {
+    user: process.env.POSTGRES_USER,
+    passowrd: process.env.POSTGRES_PASSWORD,
+  },
   redis: {
     urls: process.env.REDIS_URLS.split(','),
     username: process.env.REDIS_USERNAME,
@@ -40,7 +45,6 @@ export default (): ReceiverServiceConfig => ({
     dsn: process.env.SENTRY_DSN,
     release: process.env.DD_VERSION,
   },
-
 });
 
 export const validationSchema = Joi.object({
@@ -49,5 +53,7 @@ export const validationSchema = Joi.object({
   REDIS_URLS: Joi.string().required(),
   REDIS_USERNAME: Joi.string(),
   REDIS_PASSWORD: Joi.string(),
+  POSTGRES_USER: Joi.string(),
+  POSTGRES_PASSWORD: Joi.string(),
   JWT_SECRET: Joi.string().required(),
 });
