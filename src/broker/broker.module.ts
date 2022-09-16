@@ -1,5 +1,5 @@
 import { Global, Module } from '@nestjs/common';
-import { LoggerModule } from 'src/logger/logger.module';
+import { LoggerModule } from 'src/libs/logger/logger.module';
 import { BrokerService } from './services/broker.service';
 import { ReceiverService } from './services/receiver.service';
 

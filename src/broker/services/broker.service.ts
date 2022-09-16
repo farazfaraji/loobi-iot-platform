@@ -1,11 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import tls from 'tls';
-import fs from 'fs';
-import logging from 'aedes-logging';
 import { Server } from 'aedes';
 import { createServer } from 'aedes-server-factory';
+import { LoggerService } from 'src/libs/logger/logger.service';
 import { ReceiverService } from './receiver.service';
-import { LoggerService } from 'src/logger/logger.service';
 
 @Injectable()
 export class BrokerService {
@@ -21,11 +18,6 @@ export class BrokerService {
     const broker = Server();
     const server = createServer(broker);
     //const server = tls.createServer(options, broker.handle);
-
-    // logging({
-    //   instance: broker,
-    //   servers: [server],
-    // });
 
     server.listen(8883, () => {
       this.logger.debug('MQTT started and listening on port ', 8883);

@@ -2,23 +2,23 @@ import { UserProfileDto } from '@loobi/dtos';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from '../entities/user.entity';
+import { UserEntity } from '../entities/user.entity';
 
 @Injectable()
 export class UserRepository {
   constructor(
-    @InjectRepository(User)
-    private usersRepository: Repository<User>,
+    @InjectRepository(UserEntity)
+    private usersRepository: Repository<UserEntity>,
   ) {}
 
-  async create(userProfileDto: UserProfileDto): Promise<User> {
+  async create(userProfileDto: UserProfileDto): Promise<UserEntity> {
     return await this.usersRepository.save(userProfileDto);
   }
-  findAll(): Promise<User[]> {
+  findAll(): Promise<UserEntity[]> {
     return this.usersRepository.find();
   }
 
-  findOne(id: string): Promise<User> {
+  findOne(id: string): Promise<UserEntity> {
     return this.usersRepository.findOneBy({ id });
   }
 

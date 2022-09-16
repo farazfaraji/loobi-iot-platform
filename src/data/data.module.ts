@@ -1,16 +1,20 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { configService } from 'src/config/config.service';
-import { DataService } from './data.service';
+import { LoggerModule } from 'src/libs/logger/logger.module';
+import { InputController } from './controllers/input.controller';
+import { InputEntity } from './entities/input.entity';
+import { InputRepository } from './repositories/input.repository';
+import { DataService } from './services/data.service';
+import { InputService } from './services/input.service';
 
 @Module({
   imports: [
+    LoggerModule,
     TypeOrmModule.forRoot(configService.getTypeOrmConfig('data')),
-    // TypeOrmModule.forFeature(
-    //   DEFAULT_APP_REPOSITORIES,
-    //   DatabaseConnections.Default,
-    // ),
+    TypeOrmModule.forFeature([InputEntity]),
   ],
-  providers: [DataService],
+  providers: [DataService, InputService, InputRepository],
+  controllers: [InputController],
 })
 export class DataModule {}
